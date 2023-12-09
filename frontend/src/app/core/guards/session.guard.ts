@@ -8,8 +8,9 @@ export const sessionGuard: CanActivateFn = (route, state) => {
 
   const token = cookieService.get('Authorization');
   if (!token) {
-    router.navigate(['/login']);
+    router.navigate(['auth']);
     return false;
   }
+  
   return true;
 };

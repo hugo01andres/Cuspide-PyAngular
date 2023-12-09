@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 import { TareaListComponent } from './modules/tarea/tarea-list/tarea-list.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
+import { sessionGuard } from './core/guards/session.guard';
 
 export const routes: Routes = [
     {
         path: 'tareas',
-        component: TareaListComponent
+        component: TareaListComponent,
+        canActivate: [sessionGuard]
     },
     {
         path: 'auth',
@@ -14,6 +16,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [sessionGuard]
     }
 ];
