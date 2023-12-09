@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
-export class TareaService {
+export class TaskService {
   private endpointURL = environment.apiUrl + '/tasks';
   listTask : Observable<Task[]> = new Observable<Task[]>();
   task : Observable<Task> = new Observable<Task>();
