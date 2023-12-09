@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TareaService } from '../tarea.service';
+import { TareaService } from '../task.service';
 import { TaskList } from '../tarea.types';
 @Component({
-  selector: 'app-tarea-list',
+  selector: 'app-task-list',
   standalone: true,
   imports: [MatSlideToggleModule],
-  templateUrl: './tarea-list.component.html',
-  styleUrl: './tarea-list.component.css'
+  templateUrl: './task-list.component.html',
+  styleUrl: './task-list.component.css'
 })
-export class TareaListComponent implements OnInit{
+export class TaskListComponent implements OnInit{
   listTasks : TaskList[] = [];
   constructor(private _taskService : TareaService) { }
   ngOnInit(): void {
