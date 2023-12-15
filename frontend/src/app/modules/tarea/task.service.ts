@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Task, TaskList } from './tarea.types';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -17,7 +17,12 @@ export class TaskService {
   getTaskList(): Observable<TaskList[]> {
     const headers = this.createHeaders();
     const options = { headers };
-    return this.http.get<TaskList[]>(this.endpointURL);
+    return this.http.get<TaskList[]>(this.endpointURL).pipe(
+      //Order by id
+      tap((data) => {
+        data.sort((a, b) => a.id - b.id);
+      })
+    )
   }
 
   getTask(id: number): Observable<Task> {
@@ -28,8 +33,8 @@ export class TaskService {
     return this.http.post<Task>(this.endpointURL, task);
   }
 
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.endpointURL}/${task.id}`, task);
+  editTask(task: Task, id: number): Observable<Task> {
+    return this.http.put<Task>(`${this.endpointURL}/${id}`, task);
   }
 
   deleteTask(id: number): Observable<Task> {
