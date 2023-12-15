@@ -7,10 +7,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [MatSlideToggleModule, MenuComponent, MatTableModule, MatIconModule, CommonModule, MatButtonModule],
+  imports: [MatSlideToggleModule, MenuComponent, MatTableModule, MatIconModule, CommonModule, MatButtonModule, RouterModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
