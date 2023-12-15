@@ -25,7 +25,7 @@ class Auth(Resource):
         password = api.payload['password']
         user = db.session.query(User).filter(User.username == username).first()
         if user is None:
-            return {'token': 'Invalid username'}, 401
+            return {'token': 'Invalid username or password'}, 401
             
         if user.password == password:
             payload = {

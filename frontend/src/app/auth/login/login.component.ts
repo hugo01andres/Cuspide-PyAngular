@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  invalidLogin: boolean = false;
 
   constructor(private _loginService : AuthService, private router: Router) {
     this.loginForm = new FormGroup({
@@ -33,8 +35,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['']);
       },
       error => {
-        console.error(error);
         // Handle error
+        console.error(error);
+        //Show user or password wrong
+        this.invalidLogin = true;
+        
       }
     );
   }

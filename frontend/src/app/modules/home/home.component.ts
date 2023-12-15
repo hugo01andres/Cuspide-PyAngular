@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { MenuComponent } from '../../shared/menu/menu/menu.component';
 import { TaskListComponent } from '../tarea/tarea-list/task-list.component';
 import { TaskService } from '../tarea/task.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MenuComponent],
+  imports: [MenuComponent, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  user = 'Itzel';
+  user = '';
 
   constructor(private _taskService: TaskService) { }
 
