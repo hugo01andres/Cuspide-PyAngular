@@ -28,8 +28,12 @@
             </div>
             <!--Invalid username or password-->
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password</div>
-            <button type="submit" (click)="login()" class="btn btn-primary btn-block">Iniciar Sesión</button>
+            <button type="submit" (click)="login()" class="btn btn-primary btn-block">Login</button>
           </form>
+          <!--Register-->
+          <div class="text-center mt-3">
+            <p>No account yet? <a [routerLink]="['register']">Regístrate</a></p>
+          </div>
         </div>
       </div>
     </div>
