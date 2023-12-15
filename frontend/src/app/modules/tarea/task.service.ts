@@ -28,7 +28,7 @@ export class TaskService {
     return this.http.post<Task>(this.endpointURL, task);
   }
 
-  updateTask(task: Task): Observable<Task> {
+  editTask(task: Task): Observable<Task> {
     return this.http.put<Task>(`${this.endpointURL}/${task.id}`, task);
   }
 

@@ -7,7 +7,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-task-list',
   standalone: true,
@@ -18,7 +18,9 @@ import { RouterModule } from '@angular/router';
 export class TaskListComponent implements OnInit{
   listTasks : TaskList[] = [];
   columnsToDisplay = ['id', 'name', 'action'];
-  constructor(private _taskService : TaskService) { }
+  constructor(private _taskService : TaskService, private _router : Router) { 
+    
+  }
   ngOnInit(): void {
     this.getTaskList();
     
@@ -36,6 +38,9 @@ export class TaskListComponent implements OnInit{
       }
     );
 
+  }
+  redirectEdit(id: number): void {
+    this._router.navigate(['/tasks/edit', id]);
   }
 
 
