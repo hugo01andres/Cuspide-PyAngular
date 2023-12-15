@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TaskListComponent } from '../../../modules/tarea/tarea-list/task-list.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-menu',
@@ -11,12 +12,17 @@ import { TaskListComponent } from '../../../modules/tarea/tarea-list/task-list.c
 })
 export class MenuComponent implements OnInit{
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private cookieService: CookieService) { }
   ngOnInit(): void {
   }
 
   toTareas(){
     this.router.navigate(['tasks']);
+  }
+
+  logOut(){
+    this.cookieService.delete('Authorization');
+    this.router.navigate(['auth']);
   }
 
 }
