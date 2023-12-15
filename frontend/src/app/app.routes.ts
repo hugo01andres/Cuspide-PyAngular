@@ -7,7 +7,7 @@ import { sessionGuard } from './core/guards/session.guard';
 export const routes: Routes = [
     {
         path: 'tasks',
-        component: TaskListComponent,
+        loadChildren: () => import('./modules/tarea/task.routes').then(m => m.taskRoutes),
         canActivate: [sessionGuard]
     },
     {
