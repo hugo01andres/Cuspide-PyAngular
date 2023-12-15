@@ -27,7 +27,7 @@ export class AuthService {
     );
   }
 
-  register(name:string, username:string, email:string, password:string) {
+  register(name:string | null, username:string| null, email:string |null, password:string | null) {
     const body = { name, username, email, password };
     return this.http.post(`${this.RegisterURL}`, body);
   }
