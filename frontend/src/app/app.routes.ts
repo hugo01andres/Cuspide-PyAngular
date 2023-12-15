@@ -3,6 +3,7 @@ import { TaskListComponent } from './modules/tarea/tarea-list/task-list.componen
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { sessionGuard } from './core/guards/session.guard';
+import { RegisterComponent } from './auth/register/register.component';
 
 export const routes: Routes = [
     {
@@ -18,5 +19,9 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
         canActivate: [sessionGuard]
+    },
+    {
+        path: 'register',
+        component: RegisterComponent
     }
 ];

@@ -9,6 +9,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
   private readonly LoginURL = environment.apiUrl + '/auth/login';
+  private readonly RegisterURL = environment.apiUrl + '/users/register';
   token : Observable<string> = new Observable<string>();
   constructor(private http: HttpClient, private cookie : CookieService) { }
 
@@ -24,5 +25,10 @@ export class AuthService {
         
       })
     );
+  }
+
+  register(name:string | null, username:string| null, email:string |null, password:string | null) {
+    const body = { name, username, email, password };
+    return this.http.post(`${this.RegisterURL}`, body);
   }
 }
