@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { TaskService } from '../task.service';
 import { MenuComponent } from '../../../shared/menu/menu/menu.component';
+import { tap } from 'rxjs';
+import { Task } from '../tarea.types';
 
 @Component({
   selector: 'app-edit-task',
@@ -13,44 +15,65 @@ import { MenuComponent } from '../../../shared/menu/menu/menu.component';
   styleUrl: './edit-task.component.css'
 })
 export class EditTaskComponent implements OnInit{
-  _taskService: TaskService;
-  taskForm: any = {};
-  constructor(private router: Router, private taskService: TaskService) {
-    this._taskService = taskService;
+  taskForm !: FormGroup ;
+  task : any;
+  id !: number;
+
+  constructor(private _taskService : TaskService, private _router : Router, private route: ActivatedRoute) { 
+  }
+  ngOnInit(): void {
+    
+    this.route.params.subscribe((params: Params) => {
+      const id = +params['id']; // El '+' convierte el parámetro de cadena a número
+      this.id = id;
+      console.log('ID from URL:', id);
+  
+      // Ahora puedes usar el id como desees en tu componente.
+    });
+    this.task = this._taskService.getTask(this.id).subscribe(
+      (data) => {
+        this.task = data;
+        this.taskForm.patchValue({
+          name: this.task.name
+        });
+        console.log(this.task);
+      },
+      (error) => {
+        console.error(error);
+      }
+
+    );
+    this.taskForm = new FormGroup({
+      name: new FormControl(this.task.name)
+    });
+    //this.patchInfoToForm();
+    
   }
 
-  ngOnInit() {
-    //get task by id
-    const id = localStorage.getItem('taskId');
-    if (!id) {
-      alert('Invalid action.');
-      this.router.navigate(['/tasks']);
-      return;
-    }
-    this._taskService.getTask(+id).subscribe(
-      data => {
-        this.taskForm = data;
+  patchInfoToForm(){
+    this.taskForm.patchValue({
+      name: this.task.name
+    });
+  }
+
+  updateTask(){
+    console.log(this.taskForm.value);
+    this._taskService.editTask(this.taskForm.value, this.id).subscribe(
+      res => {
+        console.log(res);
+        this._router.navigate(['/tasks']);
       },
-      error => {
-        console.log(error);
-      }
+      err => console.log(err)
     );
 
   }
 
-  cancel() {
-    this.router.navigate(['/tasks']);
+  cancel(){
+    this._router.navigate(['/tasks']);
   }
 
-  editTask() {
-    this._taskService.editTask(this.taskForm).subscribe(
-      data => {
-        this.router.navigate(['/tasks']);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
+  
+
 
 }
+
