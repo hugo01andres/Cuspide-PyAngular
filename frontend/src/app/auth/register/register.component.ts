@@ -6,10 +6,18 @@ import {MatInputModule} from '@angular/material/input';
 import { AuthService } from '../auth.service';
 import { Route, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSnackBarModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatButtonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -54,9 +62,11 @@ export class RegisterComponent implements OnInit{
     this.snackBar.open(message, 'Cerrar', {
       duration: 3000, // Duración en milisegundos
       horizontalPosition: 'center',
-      verticalPosition: 'center' as MatSnackBarVerticalPosition, // Posición en el centro
+      verticalPosition: 'top' as MatSnackBarVerticalPosition, // Posición en el centro
       panelClass: ['mat-toolbar', 'mat-primary', 'centered-snackbar'], // Clases de estilo personalizadas
     });
   }
+
+  //TODO: Create a dialog to show the error
 
 }
