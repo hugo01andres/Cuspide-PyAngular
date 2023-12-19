@@ -14,6 +14,9 @@ class TaskService:
         if self.task_repository.get_by_id(id).user_id != user_id:
             raise ValidationError(f"{Fore.YELLOW}Trying to get a task that is not yours{Style.RESET_ALL}")
         return self.task_repository.get_by_id(id)
+    
+    def get_by_id_without_user_id(self, id):
+        return self.task_repository.get_by_id(id)
 
     def get_all(self):
         return self.task_repository.get_all()

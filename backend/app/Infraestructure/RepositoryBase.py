@@ -1,4 +1,5 @@
 from marshmallow import ValidationError
+from sqlalchemy.exc import SQLAlchemyError
 
 
 class RepositoryBase:
@@ -37,5 +38,9 @@ class RepositoryBase:
         try:
             self.session.delete(entity)
             self.session.commit()
-        except Exception as e:
-            raise ValidationError("Error to delete record")
+            print("Record deleted successfully")
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise ValidationError("Error deleting record: {}".format(str(e)))
+        finally:
+            self.session.close()

@@ -82,7 +82,7 @@ class Task(Resource):
             return task, 200
     
     @api.doc('Delete_task')
-    @api.marshal_with(ReadTask)
+    #@api.marshal_with(ReadTask)
     @token_required
     @g_tokens
     def delete(self, id):
@@ -91,5 +91,8 @@ class Task(Resource):
         if not task:
             api.abort(404)
         else:
-            self.task_service.delete(task)
-            return task, 200
+            try:
+                self.task_service.delete(task)
+                return 200
+            except Exception as e:
+                api.abort(500, e)
