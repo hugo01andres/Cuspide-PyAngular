@@ -16,7 +16,7 @@
             <tr *ngFor="let task of listTasks">
                 <td>{{task.id}}</td>
                 <td>{{task.name}}</td>
-                <button  mat-mini-fab color="warn" class="my-fab">
+                <button (click)="openDialog('0ms','0ms', task.id)"  mat-mini-fab color="warn" class="my-fab">
                     <mat-icon>delete</mat-icon>
                 </button>
                 <button mat-mini-fab color="primary" class="my-fab" (click)="redirectEdit(task.id)">
