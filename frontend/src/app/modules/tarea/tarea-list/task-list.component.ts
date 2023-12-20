@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TaskService } from '../task.service';
 import { TaskList } from '../tarea.types';
@@ -17,6 +17,7 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { DeleteTaskComponent } from '../delete-task/delete-task.component';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-task-list',
   standalone: true,
@@ -29,27 +30,22 @@ import { DeleteTaskComponent } from '../delete-task/delete-task.component';
 export class TaskListComponent implements OnInit{
   
   listTasks : TaskList[] = [];
+  public mostrarLoader: boolean = false;
   columnsToDisplay = ['id', 'name', 'action'];
-  constructor(private _taskService : TaskService, private _router : Router, public dialog: MatDialog) { 
+  constructor(private _taskService : TaskService, private _router : Router, public dialog: MatDialog, private cd: ChangeDetectorRef) { 
     
   }
   ngOnInit(): void {
-    this.getTaskList();
+    this.getTaskList().subscribe(list => {
+      this.listTasks = list;
+      console.log(this.listTasks);
+    }
+    );
     
   }
 
-  getTaskList(){
-    this._taskService.getTaskList().subscribe(
-      (data) => {
-        this.listTasks = data;
-        console.log(this.listTasks);
-        
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-
+  getTaskList() : Observable<TaskList[]>{
+    return this._taskService.getTaskList();
   }
   redirectEdit(id: number): void {
     this._router.navigate(['/tasks/edit', id]);
@@ -62,10 +58,27 @@ export class TaskListComponent implements OnInit{
       exitAnimationDuration,
       data: {taskId: id}
     });
+
     dialogRef.afterClosed().subscribe(result => {
-      this.getTaskList();
-      console.log('The dialog was closed', result);
-    }
-    );
+      this.getTaskList().subscribe(updatedList => {
+        this.listTasks = updatedList;
+        console.log('The dialog was closed', result);
+        this.cd.detectChanges();
+      });
+    });
+    this.reloadPage();
+  }
+  // Simula una operación asíncrona que lleva tiempo
+  realizarOperacionAsincrona() {
+    // Supongamos que esta operación asincrona tarda 2 segundos
+    setTimeout(() => {
+      // Después de completar la operación, oculta el loader
+      this.mostrarLoader = false;
+    }, 2000);
+  }
+  reloadPage(): void {
+    this._router.navigateByUrl('/tasks', { skipLocationChange: true }).then(() => {
+      this._router.navigate([this._router.url]);
+    });
   }
 }
