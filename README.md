@@ -1,6 +1,6 @@
 # Cuspide-PyAngular Project
 
-This is a project that combines Python and Angular.
+STACK: Angular, Python, Flask, PostgresSQL, SQLALCHEMY
 
 ## Requirements
 
