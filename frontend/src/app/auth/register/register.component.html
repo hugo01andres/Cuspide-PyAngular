@@ -13,7 +13,7 @@
         </mat-form-field>
         <mat-form-field class="margin-input example-full-width">
             <mat-label>Email</mat-label>
-            <input class="form-control" matInput type="email" [formControl]="password" placeholder="Enter email">
+            <input class="form-control" matInput type="email" [formControl]="email" placeholder="Enter email">
             @if(email.invalid){
                 <mat-error>{{getErrorMessage()}}</mat-error>
             }
